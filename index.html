@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Для тебе, Діано 💗</title>
+  <!-- Fonts for romantic style -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Quicksand:wght@300;500;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at 30% 30%, #ffe4ec, #ffb6c1);
+      font-family: 'Quicksand', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Floating Hearts Background */
+    .floating-hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 24px;
+      color: rgba(255, 105, 180, 0.3);
+      animation: floatHeart 8s infinite linear;
+      user-select: none;
+    }
+
+    @keyframes floatHeart {
+      0% { transform: translateY(100vh) scale(0.8); opacity: 0; }
+      50% { opacity: 0.8; }
+      100% { transform: translateY(-20vh) scale(1.5); opacity: 0; }
+    }
+
+    /* Envelope Container */
+    .envelope-container {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.8s ease;
+    }
+
+    /* Closed Envelope */
+    .envelope {
+      width: 100%;
+      max-width: 500px;
+      background: #ff99bb;
+      background: linear-gradient(145deg, #ffa5c3, #ff7ba3);
+      border-radius: 30px 30px 15px 15px;
+      padding: 50px 40px;
+      box-shadow: 0 30px 35px -10px rgba(200, 0, 100, 0.5), 0 0 0 4px #fff5f8 inset;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      border: 3px solid white;
+      margin: 20px 0;
+    }
+
+    .envelope:hover {
+      transform: scale(1.02);
+      box-shadow: 0 40px 45px -8px #d6417c, 0 0 0 6px #fff inset;
+    }
+
+    .envelope i {
+      font-size: 100px;
+      color: white;
+      text-shadow: 0 5px 15px #b63e6b;
+      margin-bottom: 25px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.08); text-shadow: 0 8px 25px #ff3b6f; }
+    }
+
+    .envelope h2 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 4rem;
+      color: white;
+      line-height: 1.2;
+      text-shadow: 3px 3px 0 #d44e7c;
+      letter-spacing: 2px;
+    }
+
+    .envelope p {
+      font-size: 1.4rem;
+      color: #fff0f3;
+      margin-top: 10px;
+      font-weight: 300;
+    }
+
+    .open-btn {
+      background: white;
+      border: none;
+      padding: 16px 40px;
+      border-radius: 60px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #d43f75;
+      margin-top: 30px;
+      cursor: pointer;
+      box-shadow: 0 5px 0 #b83b66, 0 10px 20px rgba(0,0,0,0.1);
+      transition: 0.1s linear;
+      font-family: 'Quicksand', sans-serif;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .open-btn:active {
+      transform: translateY(5px);
+      box-shadow: 0 2px 0 #b83b66, 0 8px 16px rgba(0,0,0,0.1);
+    }
+
+    /* Letter (initially hidden) */
+    .letter {
+      width: 100%;
+      background: rgba(255, 250, 245, 0.97);
+      backdrop-filter: blur(8px);
+      border-radius: 60px 60px 40px 40px;
+      padding: 45px 50px;
+      box-shadow: 0 40px 60px #d85a84, 0 0 0 6px #ffdbea, 0 0 0 12px #ffeef4;
+      border: 3px solid white;
+      transition: opacity 0.8s, transform 0.5s;
+      opacity: 0;
+      transform: scale(0.9);
+      pointer-events: none;
+      position: relative;
+      z-index: 20;
+      margin: 20px 0;
+    }
+
+    .letter.show {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: all;
+    }
+
+    /* Close button inside letter */
+    .close-letter {
+      position: absolute;
+      top: 25px;
+      right: 30px;
+      background: #ffb3c6;
+      border: none;
+      font-size: 32px;
+      color: #b53b62;
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: 0.2s;
+      border: 2px solid white;
+      box-shadow: 0 4px 8px #f598b2;
+    }
+
+    .close-letter:hover {
+      background: #ff98b3;
+      transform: rotate(90deg);
+    }
+
+    /* message style */
+    .message-content {
+      max-height: 60vh;
+      overflow-y: auto;
+      padding-right: 20px;
+      margin-top: 25px;
+      scroll-behavior: smooth;
+    }
+
+    /* Custom scrollbar */
+    .message-content::-webkit-scrollbar {
+      width: 12px;
+    }
+
+    .message-content::-webkit-scrollbar-track {
+      background: #ffd9e6;
+      border-radius: 20px;
+    }
+
+    .message-content::-webkit-scrollbar-thumb {
+      background: #ff80ab;
+      border-radius: 20px;
+      border: 3px solid #ffe2ed;
+    }
+
+    p {
+      font-size: 1.2rem;
+      line-height: 1.9;
+      color: #36242b;
+      margin-bottom: 2rem;
+      background: rgba(255, 225, 240, 0.5);
+      padding: 25px 22px;
+      border-radius: 35px 35px 35px 10px;
+      backdrop-filter: blur(2px);
+      border-left: 6px solid #ff99bb;
+      box-shadow: 0 5px 12px #fec7db;
+      font-weight: 500;
+      transition: 0.2s;
+      font-family: 'Quicksand', sans-serif;
+    }
+
+    p:hover {
+      background: #ffe7f0;
+      border-left-width: 10px;
+    }
+
+    h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 4.2rem;
+      color: #c43b6b;
+      text-align: center;
+      margin: 0 0 10px;
+      text-shadow: 2px 2px 0 #ffbfd4;
+      letter-spacing: 1px;
+      position: relative;
+    }
+
+    .subhead {
+      text-align: center;
+      font-size: 1.4rem;
+      color: #d65482;
+      margin-bottom: 15px;
+      border-bottom: 3px dashed #ffb0c3;
+      padding-bottom: 20px;
+    }
+
+    /* Music control */
+    .music-control {
+      position: fixed;
+      bottom: 25px;
+      left: 25px;
+      background: white;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      color: #ed4e7a;
+      box-shadow: 0 5px 18px #e06b93;
+      cursor: pointer;
+      z-index: 100;
+      border: 3px solid #ffc1d0;
+      transition: 0.2s;
+    }
+
+    .music-control:hover {
+      transform: scale(1.12);
+      background: #ffe2ed;
+    }
+
+    /* Today's date for extra love */
+    .today-date {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.9rem;
+      color: #d1517a;
+      text-align: center;
+      margin: 20px 0 5px;
+    }
+
+    /* Media queries */
+    @media (max-width: 650px) {
+      .letter { padding: 30px 20px; }
+      p { font-size: 1rem; padding: 18px; }
+      h1 { font-size: 3.5rem; }
+      .envelope h2 { font-size: 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating hearts background -->
+  <div class="floating-hearts" id="floatingHearts"></div>
+
+  <!-- Music Control -->
+  <div class="music-control" id="musicToggle">
+    <i class="fas fa-music" id="musicIcon"></i>
+  </div>
+  <audio id="bgMusic" loop preload="auto">
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
+    <!-- fallback romantic song (instrumental) -->
+  </audio>
+
+  <!-- Main container: shows either envelope or letter -->
+  <div class="envelope-container" id="envelopeContainer">
+    <!-- CLOSED ENVELOPE -->
+    <div class="envelope" id="envelope">
+      <i class="fas fa-heart"></i>
+      <h2>Діаночка</h2>
+      <p>тобі лист 💌</p>
+      <button class="open-btn" id="openLetterBtn"><i class="fas fa-envelope-open-text"></i> Відкрити</button>
+    </div>
+
+    <!-- OPEN LETTER (initially hidden) -->
+    <div class="letter" id="letter">
+      <button class="close-letter" id="closeLetterBtn"><i class="fas fa-times"></i></button>
+      <h1>💗 Моїй Діані 💗</h1>
+      <div class="today-date" id="todayDate"></div>
+      <div class="subhead">💕 лист, написаний з усією ніжністю 💕</div>
+
+      <!-- Scrollable message -->
+      <div class="message-content" id="messageContent">
+        <p>(Діано, це повідомлення, можливо, здасться тобі досить дивним. Можливо, деякі моменти ти зрозумієш, а деякі — ні… але, будь ласка, прочитай мої слова з абсолютно спокійним розумом. Щоб ти зрозуміла все, що я кажу. І щоб ти не розгнівалася на жодне моє слово. Бо я зовсім не хочу, щоб ти на мене хоч трохи сердилася. Бо я не хочу, щоб мій найулюбленіший друг хоч трохи образився чи розгнівався…</p>
+
+        <p>Ти казала, що нам обом треба подумати про наші стосунки. Треба подумати, що робити далі. То, Діано, це дуже добре, що ти про це подумала. Тобто ти серйозно ставишся до наших стосунків. Ти попросила часу, щоб подумати, і це багато про що говорить: наприклад, що ти не хочеш від мене віддалятися, і якби я для тебе був просто випадковою людиною, то ніхто б так не думав — або відразу б відмовив, або сказав би: «Вибач, я більше не можу з тобою спілкуватися, ти знайдеш собі когось кращого», і на тому все б закінчилося. Але ти зовсім інша, найкраща. На мою думку, ти попросила часу саме тому, щоб знайти якийсь шлях, щоб ми не віддалилися одне від одного і залишилися близькими друзями. Ти попросила часу, бо я для тебе щось значу. Можливо, я десь у тобі важливий… чесно кажучи, у мене в голові теж з’являлася ця думка, але тоді я сам себе переконав, що ми ще не готові до цього. Зараз нам просто треба добре проводити час разом, насолоджуватися… і так, це не означає, що я не серйозно до тебе ставлюся — я дуже-дуже серйозно до тебе ставлюся…</p>
+
+        <p>А з твого сьогоднішнього повідомлення здалося, ніби ти думаєш: якщо ми одружимося, то з якими проблемами зіткнемося і як виживемо. І в цій темі багато різних речей. І, можливо, зараз немає сенсу про це говорити… але мені дуже приємно було почути, що Діана думає про те, щоб бути зі мною в шлюбі й залишитися разом… так, ця думка дуже цікава… і дивись, Діано, між нами ніколи не було проблеми через релігію — я розповідав тобі про мусульманські речі саме тому, що ти сама сказала, що тобі це цікаво… і запам’ятай добре: я ніколи не змушуватиму тебе ставати мусульманкою. Мені байдуже, чи віриш ти в Бога, чи ні… Діано, коли я почав з тобою спілкуватися, я говорив саме з тобою, а не думав про твою релігію. Річ у тому, що релігія взагалі не є проблемою… чесно кажучи, якщо в майбутньому це стане можливим і ми одружимося, я буду просто неймовірно щасливий… дивись, Діано, тобі не подобається спека, добре, я розумію — тут улітку температура може сягати 40°C. Індія дуже спекотна країна, але в багатьох місцях температура тримається лише на 24°C… то якщо в майбутньому так станеться, що ми одружимося, я ніколи не дозволю тобі страждати від жодної речі й не допущу, щоб чогось бракувало… я казав тобі, що ти моя дівчина і навіть більше… але ці дві речі — це лише дуже маленькі проблеми… якщо ми обидва захочемо провести життя разом, це не буде легко… проблем виникне дуже багато… о Діано, не знаю, чому я зараз про це говорю, поки що нам обом треба зосередитися на навчанні й навичках. І залишатися на зв’язку одне одним. І ми ще не настільки дорослі, щоб обговорювати ці теми… вибач, якщо тобі хоч трохи стало прикро.</p>
+
+        <p>Ти знаєш, чому ти мені найбільше подобаєшся? Бо ти розумієш мої слова, і я можу поділитися з тобою всім. Я почуваюся з тобою дуже комфортно. Мені це дуже подобається… і мені це подобається…</p>
+
+        <p>Діано, ти дуже розумна дівчина. Я завжди хочу бачити посмішку на твоєму обличчі, а не тривогу через якісь дурні думки… тобі не потрібно зараз про все це думати… зараз я хочу лише, щоб ти була щаслива, щоб, коли ти зі мною говориш, ти насолоджувалася, а не хвилювалася…</p>
+
+        <p>Діано, такого друга, як ти, немає ні в кого і ніколи не буде. І я завжди щасливий через це. Шкода, що я не можу бути таким же красивим, як ти, або хоча б таким, який тобі сподобається… таким хлопцем, якого ти полюбила б усім серцем… нічого страшного, Діано, я завжди буду щасливий, що став твоїм другом…)</p>
+      </div>
+      <div style="display: flex; justify-content: center; gap: 25px; margin: 25px 0 10px; font-size: 32px; color: #f28eb3;">
+        <i class="fas fa-heart"></i><i class="fas fa-heart"></i><i class="fas fa-heart"></i>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      // ---- floating hearts generator ----
+      const heartsContainer = document.getElementById('floatingHearts');
+      for (let i = 0; i < 20; i++) {
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.innerHTML = '❤️';
+        heart.style.left = Math.random() * 100 + '%';
+        heart.style.animationDuration = (Math.random() * 10 + 8) + 's';
+        heart.style.fontSize = (Math.random() * 30 + 15) + 'px';
+        heart.style.animationDelay = Math.random() * 10 + 's';
+        heartsContainer.appendChild(heart);
+      }
+
+      // ---- today date (for romantic touch) ----
+      const today = new Date();
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      document.getElementById('todayDate').innerText = today.toLocaleDateString('uk-UA', options);
+
+      // ---- envelope / letter logic ----
+      const envelope = document.getElementById('envelope');
+      const letter = document.getElementById('letter');
+      const openBtn = document.getElementById('openLetterBtn');
+      const closeBtn = document.getElementById('closeLetterBtn');
+
+      function openLetter() {
+        envelope.style.display = 'none';
+        letter.classList.add('show');
+        // small confetti effect (simulated by adding more hearts)
+        for (let i = 0; i < 5; i++) {
+          setTimeout(() => {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '💖';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = '3s';
+            heart.style.fontSize = '30px';
+            heart.style.color = '#ff9eb5';
+            heartsContainer.appendChild(heart);
+            setTimeout(() => heart.remove(), 3000);
+          }, i * 150);
+        }
+      }
+
+      function closeLetter() {
+        envelope.style.display = 'flex';
+        letter.classList.remove('show');
+      }
+
+      openBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openLetter();
+      });
+
+      closeBtn.addEventListener('click', closeLetter);
+
+      // also click on envelope (but not on button) can open? we decide only button
+      // but we keep envelope click optional (currently only button)
+
+      // ---- music control ----
+      const music = document.getElementById('bgMusic');
+      const musicToggle = document.getElementById('musicToggle');
+      const musicIcon = document.getElementById('musicIcon');
+      let musicPlaying = false;
+
+      // set volume lower
+      music.volume = 0.3;
+
+      musicToggle.addEventListener('click', () => {
+        if (musicPlaying) {
+          music.pause();
+          musicIcon.classList.remove('fa-pause');
+          musicIcon.classList.add('fa-music');
+        } else {
+          music.play().catch(e => console.log('Autoplay prevented, user click needed'));
+          musicIcon.classList.remove('fa-music');
+          musicIcon.classList.add('fa-pause');
+        }
+        musicPlaying = !musicPlaying;
+      });
+
+      // optional: if user opens envelope, maybe start music softly? but we let user decide
+
+      // ---- typewriter effect for the first paragraph? but we keep original text ----
+
+      // ---- add a little sparkle when hovering over paragraphs ----
+      const paragraphs = document.querySelectorAll('.message-content p');
+      paragraphs.forEach(p => {
+        p.addEventListener('mouseenter', () => {
+          p.style.transition = '0.3s';
+          p.style.boxShadow = '0 0 0 4px #ffb8d2, 0 8px 18px #ed6d94';
+        });
+        p.addEventListener('mouseleave', () => {
+          p.style.boxShadow = '0 5px 12px #fec7db';
+        });
+      });
+
+    })();
+  </script>
+
+  <!-- small instruction for envelope (optional) -->
+  <div style="position: fixed; bottom: 25px; right: 25px; background: white; border-radius: 50px; padding: 12px 22px; color: #ba2d63; font-weight: bold; box-shadow: 0 4px 10px #faaac3; z-index: 50; border: 2px solid #ffb7c5;">
+    <i class="fas fa-arrow-left"></i> натисни сердечко
+  </div>
+</body>
+</html>
